@@ -1,122 +1,110 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+import { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.css';
 
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+const pracownicy = [
+  { id: 1, imie: 'Anna', nazwisko: 'Kowalska', dzial: 'IT', pensja: 7200 },
+  { id: 2, imie: 'Piotr', nazwisko: 'Nowak', dzial: 'Sprzedaż', pensja: 5400 },
+  { id: 3, imie: 'Maria', nazwisko: 'Wiśniewska', dzial: 'Księgowość', pensja: 6100 },
+  { id: 4, imie: 'Jan', nazwisko: 'Kowalczyk', dzial: 'IT', pensja: 8300 },
+  { id: 5, imie: 'Katarzyna', nazwisko: 'Zielińska', dzial: 'Sprzedaż', pensja: 5900 },
+  { id: 6, imie: 'Tomasz', nazwisko: 'Szymański', dzial: 'IT', pensja: 9100 },
+  { id: 7, imie: 'Agnieszka', nazwisko: 'Woźniak', dzial: 'Księgowość', pensja: 6400 },
+  { id: 8, imie: 'Michał', nazwisko: 'Kaczmarek', dzial: 'Sprzedaż', pensja: 5200 },
+  { id: 9, imie: 'Magdalena', nazwisko: 'Mazur', dzial: 'IT', pensja: 7800 },
+  { id: 10, imie: 'Paweł', nazwisko: 'Krawczyk', dzial: 'Księgowość', pensja: 6000 },
+  { id: 11, imie: 'Joanna', nazwisko: 'Piotrowska', dzial: 'Sprzedaż', pensja: 5600 },
+  { id: 12, imie: 'Łukasz', nazwisko: 'Grabowski', dzial: 'IT', pensja: 8700 }
+];
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+function filtrujPracownikow(fraza, dzial) {
+  const szukanaFraza = fraza.trim().toLowerCase();
+  return pracownicy.filter(
+    (pracownik) =>
+      pracownik.nazwisko.toLowerCase().includes(szukanaFraza) &&
+      (dzial === '' || pracownik.dzial === dzial)
+  );
 }
 
-export default App
+function App() {
+  const [fraza, setFraza] = useState('');
+  const [dzial, setDzial] = useState('');
+
+  const przefiltrowani = filtrujPracownikow(fraza, dzial);
+
+  function zmienFraze(event) {
+    const nowaFraza = event.target.value;
+    setFraza(nowaFraza);
+    console.log('Wyniki: ' + filtrujPracownikow(nowaFraza, dzial).length);
+  }
+
+  function zmienDzial(event) {
+    const nowyDzial = event.target.value;
+    setDzial(nowyDzial);
+    console.log('Wyniki: ' + filtrujPracownikow(fraza, nowyDzial).length);
+  }
+
+  return (
+    <div className="container mt-4">
+      <h2>Pracownicy</h2>
+
+      <div className="row">
+        <div className="col-md-6 mb-3">
+          <label htmlFor="szukaj" className="form-label">Szukaj:</label>
+          <input
+            type="text"
+            className="form-control"
+            id="szukaj"
+            value={fraza}
+            onChange={zmienFraze}
+          />
+        </div>
+        <div className="col-md-6 mb-3">
+          <label htmlFor="dzial" className="form-label">Dział:</label>
+          <select
+            className="form-select"
+            id="dzial"
+            value={dzial}
+            onChange={zmienDzial}
+          >
+            <option value="">Wszystkie</option>
+            <option value="IT">IT</option>
+            <option value="Sprzedaż">Sprzedaż</option>
+            <option value="Księgowość">Księgowość</option>
+          </select>
+        </div>
+      </div>
+
+      <p className="fw-bold">Liczba pracowników: {przefiltrowani.length}</p>
+
+      {przefiltrowani.length === 0 ? (
+        <div className="alert alert-warning" role="alert">
+          Brak pracowników spełniających kryteria
+        </div>
+      ) : (
+        <table className="table table-striped">
+          <thead className="table-dark">
+            <tr>
+              <th scope="col">Imię</th>
+              <th scope="col">Nazwisko</th>
+              <th scope="col">Dział</th>
+              <th scope="col">Pensja</th>
+            </tr>
+          </thead>
+          <tbody>
+            {przefiltrowani.map((pracownik) => (
+              <tr key={pracownik.id}>
+                <td>{pracownik.imie}</td>
+                <td>{pracownik.nazwisko}</td>
+                <td>{pracownik.dzial}</td>
+                <td>{pracownik.pensja}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
+  );
+}
+
+export default App;
